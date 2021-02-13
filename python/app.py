@@ -45,34 +45,34 @@ def getDate():
 
     day1 = datetime.date.today() + datetime.timedelta(days = 1)  # today's day + 1
     day1 = weekDays[day1.weekday()]  # get day name from ls
-    day1_label.configure(text=day1)
+    day1_label.config(text=day1)
 
     day2 = datetime.date.today() + datetime.timedelta(days = 2)  # today's day + 2
     day2 = weekDays[day2.weekday()]  # get day name from ls
-    day2_label.configure(text=day2)
+    day2_label.config(text=day2)
 
     day3 = datetime.date.today() + datetime.timedelta(days = 3)  # today's day + 3
     day3 = weekDays[day3.weekday()]  # get day name from ls
-    day3_label.configure(text=day3)
+    day3_label.config(text=day3)
 
     day4 = datetime.date.today() + datetime.timedelta(days = 4)  # today's day + 4
     day4 = weekDays[day4.weekday()]  # get day name from ls
-    day4_label.configure(text=day4)
+    day4_label.config(text=day4)
 
     # I was unable to get specific temp forecast for each day, as they use the same class
     # will try to find solution for the v1.1
 
     temp1 = soup.find("div",class_="Column--temp--2v_go").text
-    temp1_label.configure(text=temp1)
+    temp1_label.config(text=temp1)
 
     temp2 = soup.find("div",class_="Column--temp--2v_go").text
-    temp2_label.configure(text=temp1)
+    temp2_label.config(text=temp1)
 
     temp3 = soup.find("div",class_="Column--temp--2v_go").text
-    temp3_label.configure(text=temp1)
+    temp3_label.config(text=temp1)
 
     temp4 = soup.find("div",class_="Column--temp--2v_go").text
-    temp4_label.configure(text=temp1)
+    temp4_label.config(text=temp1)
 
 
 # check for default temp unit
@@ -105,7 +105,7 @@ def getIcon():
         image.config(image=img2)
     elif status == "Sunny" or status == "Clear":
         image.config(image=img7)
-    elif status == "Partly Cloudy":
+    elif status == "Partly Cloudy" or "Mostly Cloudy":
         image.config(image=img3)
     elif status == "Cloudy":
         image.config(image=img)
@@ -123,7 +123,7 @@ def getIcon():
 root = Tk()
 root.title("myWeather")
 root.geometry("570x1212")
-root.configure(bg="systemTransparent")
+root.config(bg="systemTransparent")
 
 # window ui
 location_label = Label(root, text="location", font=("SF Pro", 30, "bold"), bg="systemTransparent", fg="white")
@@ -176,8 +176,8 @@ temp4_label.grid(row=1, column=3, padx=40)
 
 frame.pack(pady=100)
 
-while True:
-    getWeather()
-    getDate()
+
+getWeather()
+getDate()
 
 root.mainloop()
