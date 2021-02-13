@@ -10,7 +10,7 @@ import time
 __author__ = "Tomas Sabol, https://github.com/tomassabol"
 
 # url
-url = "https://weather.com/weather/today/l/6b4e03876dab102b4e87b32fc3946e9bf64800e6bc1606968f95d33620c67c8a"
+url = "https://weather.com/weather/today/l/ce008845c7ca4bc96010a5c7329399c61065040d6b95f9a163ee36142a8c2336"
 page = requests.get(url) # load page /url
 
 
@@ -22,7 +22,7 @@ def getWeather():
     
     # get data from html elements
     location = soup.find("h1",class_="CurrentConditions--location--1Ayv3").text  # load location from element
-    location_label.config(text=location[:-7]) # pull location name without word "weather"
+    location_label.config(text=location[:-26]) # pull location name without word "weather"
 
     temperature = soup.find("span",class_="CurrentConditions--tempValue--3KcTQ").text  # load temp
     temperature_label.config(text=temperature)
@@ -62,18 +62,6 @@ def getDate():
     # I was unable to get specific temp forecast for each day, as they use the same class
     # will try to find solution for the v1.1
 
-    temp1 = soup.find("div",class_="Column--temp--2v_go").text
-    temp1_label.config(text=temp1)
-
-    temp2 = soup.find("div",class_="Column--temp--2v_go").text
-    temp2_label.config(text=temp1)
-
-    temp3 = soup.find("div",class_="Column--temp--2v_go").text
-    temp3_label.config(text=temp1)
-
-    temp4 = soup.find("div",class_="Column--temp--2v_go").text
-    temp4_label.config(text=temp1)
-
 
 # check for default temp unit
 def unitCheck():
@@ -94,27 +82,37 @@ def F2C():
     result = str(round((temperature - 32) / 1.8))  # F2C formula + convert to string for output
     temperature_label.config(text=result + "°C")
 
+    temp_forecast = int(soup.find("div",class_="Column--temp--2v_go").text[:-1])
+    forecast_result = str(round((temp_forecast - 32) / 1.8))
+    temp1_label.config(text=forecast_result + "°C")
+    temp2_label.config(text=forecast_result + "°C")
+    temp3_label.config(text=forecast_result+ "°C")
+    temp4_label.config(text=forecast_result+ "°C")
+
 
 # get icon based on weather status
 def getIcon():
     soup = BeautifulSoup(page.content, "html.parser")  # load html
     status = str(soup.find("div", class_="CurrentConditions--phraseValue--2xXSr").text)  # get div elemtnt data
-
+    current_time = (time.ctime())[-13:-11]
     # set icon based on condition
-    if status == "Clear" and (time.ctime()[-13:-11] == "21","22","23","00","01","02","03","04","05"):
-        image.config(image=img2)
+    if status == "Clear" and (current_time == "21" or current_time == "22" or current_time == "23"\
+            or current_time == "00" or current_time == "01" or current_time == "02" or current_time == "03"\
+            or current_time == "04" or current_time == "05"):
+        image_label.config(image=img2)
     elif status == "Sunny" or status == "Clear":
-        image.config(image=img7)
-    elif status == "Partly Cloudy" or "Mostly Cloudy":
-        image.config(image=img3)
+        image_label.config(image=img7)
     elif status == "Cloudy":
-        image.config(image=img)
-    elif status == "Rain/Snow Showers" or "Rain" or "PM Showers" or "AM Showers" or "Showers":
-        image.config(image=img4)
-    elif status == "Snow" or "PM Snow Showers" or "AM Snow Showers" or "Snow Showers":
-        image.config(image=img5)
+        image_label.config(image=img)
+    elif status == "Rain" or status == "Rain/Snow Showers" or status == "Rain" or status == "PM Showers"\
+            or status == "AM Showers" or status == "Showers":
+        image_label.config(image=img4)
+    elif status == "Snow" or status == "PM Snow Showers" or status == "AM Snow Showers" or status == "Snow Showers":
+        image_label.config(image=img5)
     elif status == "Storm":
-        image.config(image=img6)
+        image_label.config(image=img6)
+    elif status == "Partly Cloudy" or status == "Mostly Cloudy":
+        image_label.config(image=img3)
 
 
 # window setup
@@ -130,7 +128,7 @@ location_label = Label(root, text="location", font=("SF Pro", 30, "bold"), bg="s
 location_label.pack(padx=70, pady = 60)
 
 # load image + resize
-img = ImageTk.PhotoImage(Image.open("/Users/tomassabol/Documents/python/weatherApp/cloudy.png").resize((260,250)))
+img  = ImageTk.PhotoImage(Image.open("/Users/tomassabol/Documents/python/weatherApp/cloudy.png").resize((260,250)))
 img2 = ImageTk.PhotoImage(Image.open("/Users/tomassabol/Documents/python/weatherApp/night.png").resize((260,250)))
 img3 = ImageTk.PhotoImage(Image.open("/Users/tomassabol/Documents/python/weatherApp/partly-cloudy.png").resize((260,250)))
 img4 = ImageTk.PhotoImage(Image.open("/Users/tomassabol/Documents/python/weatherApp/rain.png").resize((260,250)))
@@ -139,8 +137,8 @@ img6 = ImageTk.PhotoImage(Image.open("/Users/tomassabol/Documents/python/weather
 img7 = ImageTk.PhotoImage(Image.open("/Users/tomassabol/Documents/python/weatherApp/sun.png").resize((260,250)))
 
 # output image
-image = Label(root, image=img, bg="systemTransparent")
-image.pack()
+image_label = Label(root, bg="systemTransparent")
+image_label.pack()
 
 temperature_label = Label(root, text="temperature", font=("SF Pro", 65, "bold"), bg="systemTransparent", fg="white")
 temperature_label.pack(pady=10)
