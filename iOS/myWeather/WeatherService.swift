@@ -14,7 +14,7 @@ import Foundation
 public final class WeatherService: NSObject {
 
   private let locationManager = CLLocationManager()
-  private let API_KEY = "34b3a1dbb3c79e554d34663a5b83f925"
+  private let API_KEY = "ENTER_YOUR_OWN_API_KEY_HERE"
   private var completionHandler: ((Weather?, LocationAuthError?) -> Void)?
   private var dataTask: URLSessionDataTask?
 
