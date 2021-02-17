@@ -17,8 +17,8 @@ config.read(config_file)
 g = geocoder.ip('me') #get gps
 
 
-# https://api.openweathermap.org/data/2.5/onecall?lat=1&lon=1&exclude=minutely,hourly&appid=34b3a1dbb3c79e554d34663a5b83f925&units=metric
-url = f"https://api.openweathermap.org/data/2.5/onecall?lat={(g.lat)}&lon={(g.lng)}&exclude=minutely,hourly&appid=34b3a1dbb3c79e554d34663a5b83f925&units=metric"
+# https://api.openweathermap.org/data/2.5/onecall?lat=1&lon=1&exclude=minutely,hourly&appid=|enter_your_api_key|&units=metric
+url = f"https://api.openweathermap.org/data/2.5/onecall?lat={(g.lat)}&lon={(g.lng)}&exclude=minutely,hourly&appid=|enter_your_api_key|&units=metric"
 
 response = requests.get(url) 
 data = json.loads(response.text)
