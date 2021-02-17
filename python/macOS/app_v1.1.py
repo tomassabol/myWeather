@@ -47,27 +47,22 @@ def getStatus():
     status_label.config(text=status)
 
 
-    if int(time.ctime()[11]) == 0 or (int(time.ctime()[11:13]) >= 21):
-        current_time = True
-    else:
-        current_time = False
-
-    
-    # set icon based on status
-    if current_time == True:
+    if(int(time.ctime()[11]) == 0 and int(time.ctime()[12]) <= 6) or (int(time.ctime()[11:13]) >= 20):
         image_label.config(image=img2)
-    elif status == "Clear sky":
-        image_label.config(image=img7)
-    elif status == "Scattered clouds" or status == "Broken clouds":
-        image_label.config(image=img)
-    elif status == "Rain" or status == "Shower rain":
-        image_label.config(image=img4)
-    elif status == "Snow":
-        image_label.config(image=img5)
-    elif status == "Thunderstorm":
-        image_label.config(image=img6)
-    elif status == "Few clouds":
-        image_label.config(image=img3)
+    else:
+        # set icon based on status
+        if status == "Clear sky":
+            image_label.config(image=img7)
+        elif status == "Scattered clouds" or status == "Broken clouds" or status == "Overcast clouds":
+            image_label.config(image=img)
+        elif status == "Rain" or status == "Shower rain":
+            image_label.config(image=img4)
+        elif status == "Snow" or status == "Light snow" or status == "Heavy snow":
+            image_label.config(image=img5)
+        elif status == "Thunderstorm":
+            image_label.config(image=img6)
+        elif status == "Few clouds":
+            image_label.config(image=img3)
 
 
 # get dates for next further forecast
